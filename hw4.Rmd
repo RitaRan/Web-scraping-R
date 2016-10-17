@@ -1,0 +1,24 @@
+---
+title: "HW4 - La Quinta is Spanish for next to Denny’s"
+author:
+- Cecily Abraham
+- Jonathan Bryan
+- Ran Zhou
+- Ting Dai
+output: 
+  html_document: 
+    highlight: pygments
+    theme: flatly
+---
+
+### Load the data
+
+```{r setup, include=FALSE}
+library(rvest)
+load("data/dennys.Rdata")
+load("data/lq.Rdata")
+```
+
+### Get the distance
+
+
