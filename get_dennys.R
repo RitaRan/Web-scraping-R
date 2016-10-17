@@ -10,8 +10,8 @@ get_url = function(limit, zip_code, radius)
   )
 }
 
-dist1 = get_url(limit=1000, zip_code=84116, radius=10000)
-dist2 = get_url(limit=1000, zip_code=20011, radius=10000)
+dist1 = get_url(limit=1000, zip_code=84116, radius=5000)
+dist2 = get_url(limit=1000, zip_code=20011, radius=5000)
 
 dir.create("data/dennys",recursive = TRUE, showWarnings = FALSE)
 

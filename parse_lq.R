@@ -47,17 +47,26 @@ for(i in seq_along(files)){
     html_text() %>%
     str_trim()
     
-  res[[i]] = data_frame(
-    loc_name = loc_name,
-    address = paste(hotel_info[1], hotel_info[2], collapse = "\n"),
-    phone = hotel_info[3] %>% str_replace("Phone: ",""),
-    fax = hotel_info[4] %>% str_replace("Fax: ",""),
-    lat = long_lat[1,2] %>% as.numeric(),
-    long = long_lat[1,3] %>% as.numeric(),
-    n_rooms = n_rooms,
-    int_avail = str_detect(amenities,"Internet") %>% sum(.)>0,
-    swim_pool_avail = str_detect(amenities,"Swimming Pool") %>% sum(.)>0
-  )
+  state = str_match(hotel_info[2],"(\\, )(.*)( .*)")[3]
+  
+  States = c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS",
+             "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY",
+             "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
+             "WI", "WY", "GU", "PR", "VI")
+  
+  if(state %in% States){
+    res[[i]] = data_frame(
+      loc_name = loc_name,
+      address = paste(hotel_info[1], hotel_info[2], collapse = "\n"),
+      phone = hotel_info[3] %>% str_replace("Phone: ",""),
+      fax = hotel_info[4] %>% str_replace("Fax: ",""),
+      lat = long_lat[1,2] %>% as.numeric(),
+      long = long_lat[1,3] %>% as.numeric(),
+      n_rooms = n_rooms,
+      int_avail = str_detect(amenities,"Internet") %>% sum(.)>0,
+      swim_pool_avail = str_detect(amenities,"Swimming Pool") %>% sum(.)>0
+    )
+  }
 }
 
 hotels = bind_rows(res)
