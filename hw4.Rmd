@@ -15,6 +15,10 @@ output:
 
 ```{r setup, include=FALSE}
 library(rvest)
+exist = as.data.frame(installed.packages())
+if (sum(exist$Package == "geosphere")==0){
+  install.packages("geomsphere")
+}
 library(geosphere)
 library(maps)
 library(ggplot2)
