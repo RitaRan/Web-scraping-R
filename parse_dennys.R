@@ -1,3 +1,4 @@
+library(xml2)
 library(methods)
 library(rvest)
 library(stringr)
