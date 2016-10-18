@@ -24,6 +24,7 @@ load("data/lq.Rdata")
 ### Get the distance
 
 ```{r}
+# Cited from distHaversine in geosphere package
 distHaversine = function (p1, p2, r = 6378137) 
 {
     toRad <- pi/180
