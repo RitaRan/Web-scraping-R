@@ -1,3 +1,4 @@
+library(methods)
 library(rvest)
 library(stringr)
 library(tibble)
