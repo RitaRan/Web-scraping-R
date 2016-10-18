@@ -1,3 +1,4 @@
+library(xml2)
 library(rvest)
 
 site = "http://www2.stat.duke.edu/~cr173/lq_test/www.lq.com/en/findandbook/"
