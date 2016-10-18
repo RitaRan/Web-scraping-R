@@ -16,6 +16,8 @@ output:
 ```{r setup, include=FALSE}
 library(rvest)
 library(geosphere)
+library(maps)
+library(ggplot2)
 load("data/dennys.Rdata")
 load("data/lq.Rdata")
 ```
@@ -24,11 +26,30 @@ load("data/lq.Rdata")
 
 ```{r}
 dist = list()
+near_lq = rep(NA, nrow(dennys))
 L = hotels[,c("long","lat")]
-for(i in 1:nrow(D)){
-  df1 = matrix(rep(c(D[[i,"long"]], D[[i, "lat"]]), nrow(L)), ncol=2, byrow=T)
+for(i in 1:nrow(dennys)){
+  df1 = matrix(rep(c(dennys[[i,"long"]], dennys[[i, "lat"]]), nrow(L)), ncol=2, byrow=T)
   df2 = L
-  dist[[i]] = distHaversine(df1, df2)
+  dis = distHaversine(df1, df2)
+  dist[[i]] = dis
+  near_lq[i] = sum(dis<100)
 }
+dennys$near_lq = near_lq
+#load us map data
+all_states = map_data("state")
+#plot all states with ggplot
+ggplot() + 
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="khaki1" ) +
+  geom_point(data = dennys[dennys$near_lq>0,], aes(x = long, y=lat), colour = "blue") 
+
+ggplot() + 
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="khaki1" ) +
+  geom_point(data = dennys[dennys$near_lq==0,], aes(x = long, y=lat, colour = "no")) +
+  geom_point(data = dennys[dennys$near_lq>0,], aes(x = long, y=lat, colour = "yes")) +
+  scale_color_manual(name = 'Have La Quintas nearby',
+                     labels = c("no","yes"),
+                     values = c("cadetblue2", 'red')) +
+  ggtitle("Map of Dennys with La Quintas nearby") 
 ```
 
