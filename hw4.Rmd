@@ -35,6 +35,7 @@ for(i in 1:nrow(dennys)){
   dist[[i]] = dis
   near_lq[i] = sum(dis<100)
 }
+
 dennys$near_lq = near_lq
 #load us map data
 all_states = map_data("state")
