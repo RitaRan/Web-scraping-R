@@ -15,10 +15,20 @@ output:
 
 ```{r setup, include=FALSE}
 library(rvest)
+library(geosphere)
 load("data/dennys.Rdata")
 load("data/lq.Rdata")
 ```
 
 ### Get the distance
 
+```{r}
+dist = list()
+L = hotels[,c("long","lat")]
+for(i in 1:nrow(D)){
+  df1 = matrix(rep(c(D[[i,"long"]], D[[i, "lat"]]), nrow(L)), ncol=2, byrow=T)
+  df2 = L
+  dist[[i]] = distHaversine(df1, df2)
+}
+```
 
