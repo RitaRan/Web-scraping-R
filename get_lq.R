@@ -22,9 +22,9 @@ dir.create("data/lq",recursive = TRUE,showWarnings = FALSE)
 #loop for specific hotel page in the list
 for(hotel_page in hotel_pages) 
 {
-  hotel_url = paste0(site, hotel_page)  ##Gain the hotel url of each hotel
-  ##download hotel files and save in "data/lq" file
-
+  hotel_url = paste0(site, hotel_page) #Gain the hotel url of each hotel
+ 
+  #Download hotel files and save in "data/lq" file
   download.file(url = hotel_url, 
                 destfile = file.path("data/lq", hotel_page),
                 quiet = TRUE) 
