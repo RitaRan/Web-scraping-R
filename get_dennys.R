@@ -1,4 +1,4 @@
-##generated a function to gain the url for dennys in different locations
+##Generate a function to gain the url for Dennys in different locations
 get_url = function(limit, zip_code, radius) ##the parameters are limit, zipcode, and radius
 {
   paste0(
@@ -11,12 +11,14 @@ get_url = function(limit, zip_code, radius) ##the parameters are limit, zipcode,
   )
 }
 
-## gain the url link of different locations 
+##Gain the url link of different locations 
 dist1 = get_url(limit=1000, zip_code=84116, radius=5000)
 dist2 = get_url(limit=1000, zip_code=20011, radius=5000)
-## created fold to save denny's url
+
+##Created fold to save denny's url
 dir.create("data/dennys",recursive = TRUE, showWarnings = FALSE)
-##downland the data into data/dennys fold
+
+##Downland the data into data/dennys fold
 download.file(dist1, dest="data/dennys/dist1.xml")
 download.file(dist2, dest="data/dennys/dist2.xml")
 
