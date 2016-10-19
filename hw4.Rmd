@@ -29,7 +29,7 @@ The html was scraped from the the local copy of the La Quinta HQ website. The fu
 
 
 ###Get the distance
-
+To measure for the distance between two points on a sphere we used the Haversine formula. We use the radius of the Earth, and the distance between the La Quinta and Denny's to calculate their distance. We take the longitude and latitude of each Denny's and calculate the distance between each Denny's and the La Quinta hotels in meters. We then sum how many La Quinta's are within 100 meters of the Denny's. We then produce a map of the continental US with Denny's having La Quinita's nearby (which we define as within 100 meters) as red and those without La Quinta's nearby as blue. From visual inspection we can see that the more Denny's have La Quinta's nearby in the Southeastern and Southwestern US. 
 
 ```{r}
 # Cited from distHaversine in geosphere package
