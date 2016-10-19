@@ -23,5 +23,5 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Rproj.user
-Team3_hw4.Rproj
 data
+Team3_hw4.Rproj

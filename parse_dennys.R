@@ -5,14 +5,14 @@ library(stringr)
 library(tibble)
 library(dplyr)
 
-## gained the full address of two dennys
+#Get the full address of two Denny's
 files = dir("data/dennys", "xml", full.names = TRUE)
 
-##created a function which could gained the denny's information
+#Create a function to gain the Denny's information
 info = function(file){
   page = read_html(file)
   data_frame(
-    add1 = page %>% html_nodes("address1") %>% html_text(), ## select "address1" nodes from the xml document usign CSS selectors.
+    add1 = page %>% html_nodes("address1") %>% html_text(), #Select "address1" nodes from the xml document using CSS selectors
     city = page %>% html_nodes("city") %>% html_text(),
     state = page %>% html_nodes("state") %>% html_text(),
     zip = page %>% html_nodes("postalcode") %>% html_text(),
@@ -23,10 +23,11 @@ info = function(file){
   )
 }
 
-## save the dennys loaction information into list called "dennys"
+#Save the dennys loaction information into list called "dennys"
 dennys = list(info(files[1]), info(files[2]))
-dennys = bind_rows(dennys) ## bind list "dennys" to a data frame
-##selected the dennys in the US
+#Bind list "dennys" to a data frame
+dennys = bind_rows(dennys) 
+#Select the Denny's in the US
 dennys = dennys %>%
   unique() %>%
   filter(country == "US") 

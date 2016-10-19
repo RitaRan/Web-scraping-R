@@ -30,8 +30,9 @@ The html was scraped from the the local copy of the La Quinta HQ website. The fu
 
 ###Get the distance
 
+
 ```{r}
-#Cited from distHaversine in geosphere package
+# Cited from distHaversine in geosphere package
 distHaversine = function (p1, p2, r = 6378137) 
 {
     toRad <- pi/180
@@ -59,8 +60,7 @@ for(i in 1:nrow(dennys)){
 dennys$near_lq = near_lq
 #load us map data
 all_states = map_data("state")
-
-#Plot all states with ggplot
+#plot all states with ggplot
 ggplot() + 
   geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="khaki1" ) +
   geom_point(data = dennys[dennys$near_lq==0,], aes(x = long, y=lat, colour = "no")) +
