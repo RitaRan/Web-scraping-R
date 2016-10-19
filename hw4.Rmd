@@ -22,12 +22,13 @@ load("data/lq.Rdata")
 ```
 
 
-###Scraping write up
+###Web scraping
+The html was scraped from the the local copy of the La Quinta HQ website. The full html was read into a string and then the hotel listing information from the html was isolated and stored. 
 
 
 
 
-### Get the distance
+###Get the distance
 
 ```{r}
 #Cited from distHaversine in geosphere package
