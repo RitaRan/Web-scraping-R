@@ -22,6 +22,7 @@ dir.create("data/lq",recursive = TRUE,showWarnings = FALSE)
 #loop for specific hotel page in the list
 for(hotel_page in hotel_pages) 
 {
+  print ("Running")
   hotel_url = paste0(site, hotel_page) #Gain the hotel url of each hotel
  
   #Download hotel files and save in "data/lq" file
