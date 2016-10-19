@@ -19,13 +19,7 @@ hotel_pages = page %>% #Set hotel_pages to be all the data read in from the webs
 #Created a folder to save the hotel html data
 dir.create("data/lq",recursive = TRUE,showWarnings = FALSE)
 
-#Loop for specific hotel page in the list
-for(hotel_page in hotel_pages) {
-
-  hotel_url = paste0(site, hotel_page) #Gain the hotel url of each hotel
-  #Download hotel files and save in "data/lq" file
-
-##loop for specific hotel page in the list
+#loop for specific hotel page in the list
 for(hotel_page in hotel_pages) 
 {
   hotel_url = paste0(site, hotel_page)  ##Gain the hotel url of each hotel
