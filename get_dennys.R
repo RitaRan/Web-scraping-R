@@ -1,5 +1,5 @@
 
-#Generate a function to gain the url for Dennys in different locations
+#Generate a function to gain the url for Denny's in different locations
 get_url = function(limit, zip_code, radius) #The parameters are limit, zipcode, and radius
 {
   paste0(
@@ -21,7 +21,7 @@ dist2 = get_url(limit=1000, zip_code=20011, radius=5000)
 dist3 = get_url(limit=1000, zip_code=99501, radius=1000)
 dist4 = get_url(limit=1000, zip_code=96701, radius=1000)
 
-#Create folder to save denny's url
+#Create folder to save Denny's url
 dir.create("data/dennys",recursive = TRUE, showWarnings = FALSE)
 
 #Download the data from each url into data/dennys folder
