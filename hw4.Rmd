@@ -68,6 +68,12 @@ ggplot() +
   scale_color_manual(name = 'Have La Quintas nearby',
                      labels = c("no","yes"),
                      values = c("cadetblue2", 'red')) +
-  ggtitle("Map of Dennys with La Quintas nearby") 
+  ggtitle("Map of Dennys with La Quintas nearby")
+
+num_dennys= c(sum(dennys$near_lq > 0), sum(dennys$near_lq == 0))
+prop_dennys = num_dennys/nrow(dennys)
+table = data.frame(num_dennys, prop_dennys)
+row.names(table) = c("Dennys with nearby LQ", "Dennys without nearby LQ")
+table
 ```
 
