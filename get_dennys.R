@@ -15,6 +15,8 @@ get_url = function(limit, zip_code, radius) #The parameters are limit, zipcode, 
 #Get the url link of different locations 
 dist1 = get_url(limit=1000, zip_code=84116, radius=5000)
 dist2 = get_url(limit=1000, zip_code=20011, radius=5000)
+dist3 = get_url(limit=1000, zip_code=99501, radius=1000)
+dist4 = get_url(limit=1000, zip_code=96701, radius=1000)
 
 #Create folder to save denny's url
 dir.create("data/dennys",recursive = TRUE, showWarnings = FALSE)
@@ -22,4 +24,6 @@ dir.create("data/dennys",recursive = TRUE, showWarnings = FALSE)
 #Download the data from each url into data/dennys folder
 download.file(dist1, dest="data/dennys/dist1.xml")
 download.file(dist2, dest="data/dennys/dist2.xml")
+download.file(dist3, dest="data/dennys/dist3.xml")
+download.file(dist4, dest="data/dennys/dist4.xml")
 

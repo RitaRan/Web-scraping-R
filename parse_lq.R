@@ -57,7 +57,7 @@ for(i in seq_along(files)){
     str_trim()
     
   #Gained the state information of the hotel
-  state = str_match(hotel_info[2],"(\\, )(.*)( .*)")[3]   
+  state = str_match(hotel_info[2],"\\, (.*?) ")[2]   
   #Hard code a vector including all state names
   States = c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS",
              "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY",
