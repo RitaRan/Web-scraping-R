@@ -93,6 +93,6 @@ num_dennys= c(sum(dennys$near_lq > 0), sum(dennys$near_lq == 0))
 prop_dennys = num_dennys/nrow(dennys)
 table = data.frame(num_dennys, prop_dennys)
 row.names(table) = c("Dennys with nearby LQ", "Dennys without nearby LQ")
-kable(table)
+table
 ```
 
