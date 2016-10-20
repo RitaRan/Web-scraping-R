@@ -23,8 +23,7 @@ load("data/lq.Rdata")
 
 
 ###Web scraping
-The html was scraped from the the local copy of the La Quinta HQ website. The full html was read into a string and then the hotel listing information from the html was isolated and stored. 
-
+The html was scraped from the the local copy of the La Quinta HQ website. The full html was read into a string and then the hotel listing information from the html was isolated and stored. We created a folder that contains the urls for each La Quinta hotel. To parse the La Quinta data, we for looped over each hotel in the directory, read in the html for each hotel, and then extracted the relevant information from each hotel (address, location, amenities, etc) by piping the html_nodes command to the page for each hotel. We used regex to select the state from each hotel's address, so that we could use it to limit our list to U.S. hotels. We did this by hard coding a vector with every state and territory abbreviation and then using an if statement that adds that hotel's information to the res list only if its state abbreviation is in the vector of U.S. states. Then we made the list into a data frame and saved it in the directory. 
 
 
 
@@ -70,12 +69,15 @@ all_states = map_data("state")
 pair = dennys[dennys$near_lq>0,]
 ggplot() + 
   geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="khaki1" ) +
-  geom_point(data = dennys[dennys$near_lq==0,], aes(x = long, y=lat, colour = "no")) +
-  geom_point(data = dennys[dennys$near_lq>0,], aes(x = long, y=lat, colour = "yes")) +
-  scale_color_manual(name = 'Have La Quintas nearby',
-                     labels = c("no","yes"),
-                     values = c("cadetblue2", 'red')) +
-  ggtitle("Map of Dennys with La Quintas nearby")
+
+  geom_point(data = dennys, aes(x = long, y=lat, colour = "Denny's"), size = 0.2) +
+  geom_point(data = hotels, aes(x = long, y = lat, colour = "La Quintas"), size = 0.2) +
+  geom_point(data = pair, aes(x = long, y=lat, colour = "Pairs"),size = 0.8) +
+  theme_bw() +
+  scale_color_manual(name = 'Have\n La Quintas\n nearby',
+                     labels = c("Denny's","La Quintas","Pairs"),
+                     values = c("cadetblue","darksalmon","black")) +
+  ggtitle("Map of Denny's, La Quintas and the pairs ") 
 
 #Produce table with number and proportion of Dennys with LQ nearby
 num_dennys= c(sum(dennys$near_lq > 0), sum(dennys$near_lq == 0))
