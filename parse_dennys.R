@@ -5,7 +5,6 @@ library(stringr)
 library(tibble)
 library(dplyr)
 
-#Get the full address of two Denny's
 files = dir("data/dennys", "xml", full.names = TRUE)
 
 #Create a function to gain the Denny's information

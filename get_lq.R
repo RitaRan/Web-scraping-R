@@ -1,7 +1,7 @@
 library(xml2)
 library(rvest)
 
-#Set site to be the la Quinta website Colin made for us
+#Set site to be the La Quinta website Colin made for us
 site = "http://www2.stat.duke.edu/~cr173/lq_test/www.lq.com/en/findandbook/"
 
 #Concatenate the hotel list website to the La Quinta website
