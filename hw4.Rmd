@@ -18,19 +18,19 @@ library(rvest)
 library(maps)
 library(ggplot2)
 library(knitr)
+library(dplyr)
 load("data/dennys.Rdata")
 load("data/lq.Rdata")
 ```
 
 
 ###Web scraping
-The html was scraped from the the local copy of the La Quinta HQ website. The full html was read into a string and then the hotel listing information from the html was isolated and stored. 
-
+The html was scraped from the the local copy of the La Quinta HQ website. The full html was read into a string and then the hotel listing information from the html was isolated and stored. We created a folder that contains the urls for each La Quinta hotel. To parse the La Quinta data, we for looped over each hotel in the directory, read in the html for each hotel, and then extracted the relevant information from each hotel (address, location, amenities, etc) by piping the html_nodes command to the page for each hotel. We used regex to select the state from each hotel's address, so that we could use it to limit our list to U.S. hotels. We did this by hard coding a vector with every state and territory abbreviation and then using an if statement that adds that hotel's information to the res list only if its state abbreviation is in the vector of U.S. states. Then we made the list into a data frame and saved it in the directory. 
 
 
 
 ###Get the distance
-To measure for the distance between two points on a sphere we used the Haversine formula. We use the radius of the Earth, and the distance between the La Quinta and Denny's to calculate their distance. We take the longitude and latitude of each Denny's and calculate the distance between each Denny's and the La Quinta hotels in meters. We then sum how many La Quinta's are within 100 meters of the Denny's. We then produce a map of the continental US with Denny's having La Quinita's nearby (which we define as within 100 meters) as red and those without La Quinta's nearby as blue. From visual inspection we can see that more Denny's have La Quinta's nearby in the Southeastern and Southwestern US. 
+To measure for the distance between two points on a sphere we used the Haversine formula. We use the radius of the Earth, and the distance between the La Quinta and Denny's to calculate their distance. We take the longitude and latitude of each Denny's and calculate the distance between each Denny's and the La Quinta hotels in meters. We then sum how many La Quinta's are within 100 meters of the Denny's. We then produce a map of the continental US with Denny's having La Quinita's nearby (which we define as within 100 meters) as red and those without La Quinta's nearby as blue. From visual inspection we can see that more Denny's have La Quinta's nearby in the Southeastern and Southwestern US. In fact, it is rare to find a Dennys with a La Quinta nearby, as approximately 1.9% of Dennys have La Quinta nearby. This was concluded through the table found below.
 
 ```{r}
 # Cited from distHaversine function in geosphere package
@@ -75,6 +75,7 @@ all_states = map_data("state")
 pair = dennys[dennys$near_lq>0,]
 ggplot() + 
   geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="khaki1" ) +
+
   geom_point(data = dennys, aes(x = long, y=lat, colour = "Denny's"), size = 0.2) +
   geom_point(data = hotels, aes(x = long, y = lat, colour = "La Quintas"), size = 0.2) +
   geom_point(data = pair, aes(x = long, y=lat, colour = "Pairs"),size = 0.8) +
@@ -84,17 +85,11 @@ ggplot() +
                      values = c("cadetblue","darksalmon","black")) +
   ggtitle("Map of Denny's, La Quintas and the pairs ") 
 
-info_lq = hotels%>%
-  group_by(state)%>%
-  summarise(percentage_lq = round(sum(near_dennys)/n(), digits = 2)) %>%
-  arrange(desc(percentage_lq))
-info_denny = dennys%>%
-  group_by(state)%>%
-  summarise(percentage_dennys = round(sum(near_lq)/n(), digits = 2))%>%
-  arrange(desc(percentage_dennys))
-info = merge(info_lq, info_denny)%>%
-  arrange(desc(percentage_dennys))
-colnames(info) = c("State","Percentage of Denny's having La Quintas nearby","Percentage of La Quintas having Denny's nearby")
-kable(info)
+#Produce table with number and proportion of Dennys with LQ nearby
+num_dennys= c(sum(dennys$near_lq > 0), sum(dennys$near_lq == 0))
+prop_dennys = num_dennys/nrow(dennys)
+table = data.frame(num_dennys, prop_dennys)
+row.names(table) = c("Dennys with nearby LQ", "Dennys without nearby LQ")
+kable(table)
 ```
 
