@@ -29,7 +29,7 @@ The html was scraped from the the local copy of the La Quinta HQ website. The fu
 
 
 ###Get the distance
-To measure for the distance between two points on a sphere we used the Haversine formula. We use the radius of the Earth, and the distance between the La Quinta and Denny's to calculate their distance. We take the longitude and latitude of each Denny's and calculate the distance between each Denny's and the La Quinta hotels in meters. We then sum how many La Quinta's are within 100 meters of the Denny's. We then produce a map of the continental US with Denny's having La Quinita's nearby (which we define as within 100 meters) as red and those without La Quinta's nearby as blue. From visual inspection we can see that more Denny's have La Quinta's nearby in the Southeastern and Southwestern US. 
+To measure for the distance between two points on a sphere we used the Haversine formula. We use the radius of the Earth, and the distance between the La Quinta and Denny's to calculate their distance. We take the longitude and latitude of each Denny's and calculate the distance between each Denny's and the La Quinta hotels in meters. We then sum how many La Quinta's are within 100 meters of the Denny's. We then produce a map of the continental US with Denny's having La Quinita's nearby (which we define as within 100 meters) as red and those without La Quinta's nearby as blue. From visual inspection we can see that more Denny's have La Quinta's nearby in the Southeastern and Southwestern US. In fact, it is rare to find a Dennys with a La Quinta nearby, as approximately 1.9% of Dennys have La Quinta nearby. This was concluded through the table found below.
 
 ```{r}
 # Cited from distHaversine in geosphere package
@@ -65,11 +65,11 @@ for(i in 1:nrow(dennys)){
 dennys$near_lq = near_lq
 #load us map data
 all_states = map_data("state")
+
 #plot all states with ggplot
 pair = dennys[dennys$near_lq>0,]
 ggplot() + 
   geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="khaki1" ) +
-<<<<<<< HEAD
   geom_point(data = dennys[dennys$near_lq==0,], aes(x = long, y=lat, colour = "no")) +
   geom_point(data = dennys[dennys$near_lq>0,], aes(x = long, y=lat, colour = "yes")) +
   scale_color_manual(name = 'Have La Quintas nearby',
@@ -77,20 +77,11 @@ ggplot() +
                      values = c("cadetblue2", 'red')) +
   ggtitle("Map of Dennys with La Quintas nearby")
 
+#Produce table with number and proportion of Dennys with LQ nearby
 num_dennys= c(sum(dennys$near_lq > 0), sum(dennys$near_lq == 0))
 prop_dennys = num_dennys/nrow(dennys)
 table = data.frame(num_dennys, prop_dennys)
 row.names(table) = c("Dennys with nearby LQ", "Dennys without nearby LQ")
 table
-=======
-  geom_point(data = dennys, aes(x = long, y=lat, colour = "Denny's"), size = 0.2) +
-  geom_point(data = hotels, aes(x = long, y = lat, colour = "La Quintas"), size = 0.2) +
-  geom_point(data = pair, aes(x = long, y=lat, colour = "Pairs"),size = 0.8) +
-  theme_bw() +
-  scale_color_manual(name = 'Have\n La Quintas\n nearby',
-                     labels = c("Denny's","La Quintas","Pairs"),
-                     values = c("cadetblue","darksalmon","black")) +
-  ggtitle("Map of Denny's, La Quintas and the pairs ") 
->>>>>>> 64d50948a082fd9249b53f908a7fae52966bb943
 ```
 
