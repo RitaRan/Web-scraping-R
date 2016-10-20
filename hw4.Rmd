@@ -48,6 +48,7 @@ distHaversine = function (p1, p2, r = 6378137)
 }
 dist = list()
 near_lq = rep(NA, nrow(dennys))
+near_dennys = rep(0, nrow(hotels))
 L = hotels[,c("long","lat")]
 for(i in 1:nrow(dennys)){
   df1 = matrix(rep(c(dennys[[i,"long"]], dennys[[i, "lat"]]), nrow(L)), ncol=2, byrow=T)
@@ -55,19 +56,26 @@ for(i in 1:nrow(dennys)){
   dis = distHaversine(df1, df2)
   dist[[i]] = dis
   near_lq[i] = sum(dis<100)
+  if(sum(dis<100)>0){
+    i = which(dis<100)
+    near_dennys[i] = near_dennys[i]+1
+  }
 }
 
 dennys$near_lq = near_lq
 #load us map data
 all_states = map_data("state")
 #plot all states with ggplot
+pair = dennys[dennys$near_lq>0,]
 ggplot() + 
   geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="khaki1" ) +
-  geom_point(data = dennys[dennys$near_lq==0,], aes(x = long, y=lat, colour = "no")) +
-  geom_point(data = dennys[dennys$near_lq>0,], aes(x = long, y=lat, colour = "yes")) +
-  scale_color_manual(name = 'Have La Quintas nearby',
-                     labels = c("no","yes"),
-                     values = c("cadetblue2", 'red')) +
-  ggtitle("Map of Dennys with La Quintas nearby") 
+  geom_point(data = dennys, aes(x = long, y=lat, colour = "Denny's"), size = 0.2) +
+  geom_point(data = hotels, aes(x = long, y = lat, colour = "La Quintas"), size = 0.2) +
+  geom_point(data = pair, aes(x = long, y=lat, colour = "Pairs"),size = 0.8) +
+  theme_bw() +
+  scale_color_manual(name = 'Have\n La Quintas\n nearby',
+                     labels = c("Denny's","La Quintas","Pairs"),
+                     values = c("cadetblue","darksalmon","black")) +
+  ggtitle("Map of Denny's, La Quintas and the pairs ") 
 ```
 

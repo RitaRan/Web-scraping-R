@@ -24,7 +24,7 @@ info = function(file){
 }
 
 #Save the dennys loaction information into list called "dennys"
-dennys = list(info(files[1]), info(files[2]))
+dennys = list(info(files[1]), info(files[2]), info(files[3]), info(files[4]))
 #Bind list "dennys" to a data frame
 dennys = bind_rows(dennys) 
 #Select the Denny's in the US
