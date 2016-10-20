@@ -12,7 +12,10 @@ get_url = function(limit, zip_code, radius) #The parameters are limit, zipcode, 
   )
 }
 
-#Get the url link of different locations 
+#Get the url links of different locations.
+#By researching, the US has Horizontal Width of 2,680 miles and Vertical Length of 1,582 miles.
+#So we chose Salt Lake City, Utah and Washington, DC with radius 5000 miles; 
+#and we also chose Alaska; and Hawaii with radius 1000 miles, which will cover all the continent of the US
 dist1 = get_url(limit=1000, zip_code=84116, radius=5000)
 dist2 = get_url(limit=1000, zip_code=20011, radius=5000)
 dist3 = get_url(limit=1000, zip_code=99501, radius=1000)

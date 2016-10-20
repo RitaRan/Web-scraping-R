@@ -17,6 +17,7 @@ output:
 library(rvest)
 library(maps)
 library(ggplot2)
+library(knitr)
 load("data/dennys.Rdata")
 load("data/lq.Rdata")
 ```
@@ -32,7 +33,7 @@ The html was scraped from the the local copy of the La Quinta HQ website. The fu
 To measure for the distance between two points on a sphere we used the Haversine formula. We use the radius of the Earth, and the distance between the La Quinta and Denny's to calculate their distance. We take the longitude and latitude of each Denny's and calculate the distance between each Denny's and the La Quinta hotels in meters. We then sum how many La Quinta's are within 100 meters of the Denny's. We then produce a map of the continental US with Denny's having La Quinita's nearby (which we define as within 100 meters) as red and those without La Quinta's nearby as blue. From visual inspection we can see that more Denny's have La Quinta's nearby in the Southeastern and Southwestern US. 
 
 ```{r}
-# Cited from distHaversine in geosphere package
+# Cited from distHaversine function in geosphere package
 distHaversine = function (p1, p2, r = 6378137) 
 {
     toRad <- pi/180
@@ -46,8 +47,12 @@ distHaversine = function (p1, p2, r = 6378137)
     dist <- 2 * atan2(sqrt(a), sqrt(1 - a)) * p[, 5]
     return(as.vector(dist))
 }
+# Calculate the distance to all the La Quintas for each Denny's and save it into dist list
+# In dist list, each element is a vector containing the distance between current denny's and all the La Quintas
 dist = list()
-near_lq = rep(NA, nrow(dennys))
+# Create a vector to store if there is La Quintas nearby for each Denny's and append it to the denny's data frame for ploting
+near_lq = rep(0, nrow(dennys))
+# Create a vector to store if there is Denny's nearby for each La Quintas and append it to the denny's data frame for ploting
 near_dennys = rep(0, nrow(hotels))
 L = hotels[,c("long","lat")]
 for(i in 1:nrow(dennys)){
@@ -55,17 +60,18 @@ for(i in 1:nrow(dennys)){
   df2 = as.matrix(L)
   dis = distHaversine(df1, df2)
   dist[[i]] = dis
+  # Find the pair if the distance is less than 100 meters
   near_lq[i] = sum(dis<100)
   if(sum(dis<100)>0){
     i = which(dis<100)
     near_dennys[i] = near_dennys[i]+1
   }
 }
-
 dennys$near_lq = near_lq
+hotels$near_dennys = near_dennys
 #load us map data
 all_states = map_data("state")
-#plot all states with ggplot
+#plot all states with ggplot and plot the information of Denny's and La Quintas
 pair = dennys[dennys$near_lq>0,]
 ggplot() + 
   geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="khaki1" ) +
@@ -77,5 +83,18 @@ ggplot() +
                      labels = c("Denny's","La Quintas","Pairs"),
                      values = c("cadetblue","darksalmon","black")) +
   ggtitle("Map of Denny's, La Quintas and the pairs ") 
+
+info_lq = hotels%>%
+  group_by(state)%>%
+  summarise(percentage_lq = round(sum(near_dennys)/n(), digits = 2)) %>%
+  arrange(desc(percentage_lq))
+info_denny = dennys%>%
+  group_by(state)%>%
+  summarise(percentage_dennys = round(sum(near_lq)/n(), digits = 2))%>%
+  arrange(desc(percentage_dennys))
+info = merge(info_lq, info_denny)%>%
+  arrange(desc(percentage_dennys))
+colnames(info) = c("State","Percentage of Denny's having La Quintas nearby","Percentage of La Quintas having Denny's nearby")
+kable(info)
 ```
 

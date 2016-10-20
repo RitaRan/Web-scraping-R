@@ -57,7 +57,8 @@ for(i in seq_along(files)){
     str_trim()
     
   #Gained the state information of the hotel
-  state = str_match(hotel_info[2],"\\, (.*?) ")[2]   
+  state = str_match(hotel_info[2],"\\, (.*?) ")[2] 
+  
   #Hard code a vector including all state names
   States = c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS",
              "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY",
@@ -68,6 +69,7 @@ for(i in seq_along(files)){
     res[[i]] = data_frame(
       loc_name = loc_name,
       address = paste(hotel_info[1], hotel_info[2], collapse = "\n"),
+      state = state,
       phone = hotel_info[3] %>% str_replace("Phone: ",""),
       fax = hotel_info[4] %>% str_replace("Fax: ",""),
       lat = long_lat[1,2] %>% as.numeric(),
