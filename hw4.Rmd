@@ -24,14 +24,14 @@ load("data/lq.Rdata")
 ```
 
 
-###Web scraping
+### Web scraping
 The html was scraped from the the local copy of the La Quinta HQ website. The full html was read into a string and then the hotel listing information from the html was isolated and stored. We created a folder that contains the urls for each La Quinta hotel. To parse the La Quinta data, we for looped over each hotel in the directory, read in the html for each hotel, and then extracted the relevant information from each hotel (address, location, amenities, etc) by piping the html_nodes command to the page for each hotel. We used regex to select the state from each hotel's address, so that we could use it to limit our list to U.S. hotels. We did this by hard coding a vector with every state and territory abbreviation and then using an if statement that adds that hotel's information to the res list only if its state abbreviation is in the vector of U.S. states. Then we made the list into a data frame and saved it in the directory.  
   
 To get the Denny's data, we made a function to get the url's for Denny's in different locations with parameters limit, zip code, and radius. We got the url link for Denny's in different locations, and carefully set the zip codes so that all of the U.S. would be covered in the 5000 mile and 1000 mile radii. Like for La Quinta, we created a folder to hold the url's, and then downloaded the data from each url into the folder. In order to compare Denny's and La Quinta locations, we needed information about each Denny's, so we created a function that for looped over each Denny's in the directory, and pulled address, zip code, latitude, longitude, state, country, etc. We saved this information for each Denny's in a list, and then used bind_rows to bind the location information to a data frame. We selected only the Denny's in the U.S. by filtering that the country for each Denny's matched "US", and then the U.S. Denny's data frame in a directory. It was convenient that the Denny's information pulled from the web contained the country because it allowed us to merely match the country abbreviation to "US" instead of having to hardcode the states and then match them up like we had to do for the hotels.
 
 
 
-###Get the distance
+### Get the distance
 To measure for the distance between two points on a sphere we used the Haversine formula. We use the radius of the Earth, and the distance between the La Quinta and Denny's to calculate their distance. We take the longitude and latitude of each Denny's and calculate the distance between each Denny's and the La Quinta hotels in meters. We then sum how many La Quinta's are within 100 meters of the Denny's. We then produce a map of the continental US with Denny's having La Quinta's nearby (which we define as within 100 meters) as red and those without La Quinta's nearby as blue. From visual inspection we can see that more Denny's have La Quinta's nearby in the Southeastern and Southwestern US. In fact, it is rare to find a Dennys with a La Quinta nearby, as approximately 1.9% of Dennys have La Quinta nearby. This was concluded through the table found below.
 
 
