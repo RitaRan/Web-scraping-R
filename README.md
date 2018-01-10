@@ -3,7 +3,7 @@
 
 The task is to test if it is true that La Quinta and Denny's are always near each other.
 
-There are 5 parts for this task.
+# 5 parts for this task
 
 La Quinta:
 - get_lq.R: web scrape all the hotel html information in us
@@ -13,6 +13,6 @@ Denny's:
 - get_dennys.R: web scrape all the denny's html information in us
 - parse_dennys.R: create a data table to store denny's information(including longitude and latitude) through each denny's html
 
-
+Analysis:
 - hw4.Rmd: calculate the distances and dispaly the results in a map 
 
