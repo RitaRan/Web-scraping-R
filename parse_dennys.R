@@ -7,7 +7,7 @@ library(dplyr)
 
 files = dir("data/dennys", "xml", full.names = TRUE)
 
-#Create a function to gain the Denny's information
+# Create a function to gain the Denny's information
 info = function(file){
   page = read_html(file)
   data_frame(
@@ -22,11 +22,11 @@ info = function(file){
   )
 }
 
-#Save the dennys loaction information into list called "dennys"
+# Save the dennys loaction information into list called "dennys"
 dennys = list(info(files[1]), info(files[2]), info(files[3]), info(files[4]))
-#Bind list "dennys" to a data frame
+# Bind list "dennys" to a data frame
 dennys = bind_rows(dennys) 
-#Select the Denny's in the US
+# Select the Denny's in the US
 dennys = dennys %>%
   unique() %>%
   filter(country == "US") 
